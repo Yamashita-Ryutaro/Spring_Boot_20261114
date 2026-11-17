@@ -7,15 +7,38 @@
 <body>
     <h1>ユーザー一覧</h1>
 
+    <!-- 新規登録画面へのリンク -->
+    <a th:href="@{/users/create}">新規登録</a>
+
     <table border="1">
         <tr>
             <th>ID</th>
             <th>名前</th>
+            <th>操作</th>
         </tr>
+
         <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
+            <td>
+                <!-- 詳細画面へのリンク -->
+                <a th:href="@{/users/{id}(id=${user.id})}">詳細</a>
+
+                <!-- 編集画面へのリンク -->
+                <a th:href="@{/users/{id}/edit(id=${user.id})}">編集</a>
+
+                <!-- 削除フォーム -->
+                <form th:action="@{/users/{id}/delete(id=${user.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit"
+                            onclick="return confirm('本当に削除しますか？')">
+                        削除
+                    </button>
+                </form>
+            </td>
         </tr>
     </table>
 </body>
 </html>
+

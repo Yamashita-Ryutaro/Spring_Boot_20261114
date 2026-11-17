@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー詳細</title>
+</head>
+<body>
+    <h1>ユーザー詳細</h1>
+
+    <p>ID：<span th:text="${user.id}"></span></p>
+    <p>名前：<span th:text="${user.name}"></span></p>
+
+    <a th:href="@{/users}">一覧に戻る</a>
+</body>
+</html>
