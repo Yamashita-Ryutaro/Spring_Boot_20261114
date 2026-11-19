@@ -2,6 +2,7 @@ package com.example.Spring_Boot_20261114.controller;
 
 import com.example.Spring_Boot_20261114.service.UserService;
 import com.example.Spring_Boot_20261114.entity.User;
+import com.example.Spring_Boot_20261114.dto.UserRegisterDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import jakarta.validation.Valid;
 
 import java.util.Optional;
 
@@ -60,7 +64,8 @@ public class UserController {
    * @return ユーザー作成テンプレート
    */
   @GetMapping("/create")
-  public String create() {
+  public String create(Model model) {
+    model.addAttribute("userRegisterDto", new UserRegisterDto());
     return "users/create";
   }
 
@@ -71,8 +76,13 @@ public class UserController {
    * @return リダイレクト先
    */
   @PostMapping("/store")
-  public String store(@RequestParam String name) {
-    userService.store(name);
+  public String store(@Valid @ModelAttribute UserRegisterDto form, BindingResult result) {
+    
+    if (result.hasErrors()) {
+      return "users/create";
+    }
+
+    userService.store(form.getName());
     return "redirect:/users";
   }
 
